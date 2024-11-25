@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
 export default function HomeScreen() {
-  const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
+  const [randomNumber] = useState(generateRandomNumber());
   const [userGuess, setUserGuess] = useState('');
-  const [message, setMessage] = useState('Tebak angka antara 1-100!');
 
   function generateRandomNumber() {
     return Math.floor(Math.random() * 100) + 1;
@@ -17,21 +16,18 @@ export default function HomeScreen() {
       return;
     }
 
-    if (guess < randomNumber) {
-      setMessage('Terlalu kecil, coba lagi!');
-    } else if (guess > randomNumber) {
-      setMessage('Terlalu besar, coba lagi!');
+    if (guess === randomNumber) {
+      Alert.alert('Selamat!', 'Anda menebak dengan benar!');
     } else {
-      setMessage('Selamat! Anda menebak dengan benar!');
-      setRandomNumber(generateRandomNumber());
+      Alert.alert('Salah', 'Coba lagi!');
     }
+
     setUserGuess('');
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tebak Angka</Text>
-      <Text style={styles.instructions}>{message}</Text>
       <TextInput
         style={styles.input}
         value={userGuess}
@@ -52,16 +48,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#2c3e50',
     marginBottom: 20,
-  },
-  instructions: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginBottom: 20,
-    color: '#34495e',
   },
   input: {
     height: 40,
